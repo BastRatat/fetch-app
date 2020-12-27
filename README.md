@@ -231,27 +231,24 @@ const handleChange = (event) => {
 };
 ```
 
-#### Input changes in form
+#### submit the form
 The handleSubmit takes an input as parameter and launchs a GET request to the github API given a username, a page number and a number of results per page.
-It also prevents the page to refresh when the form is submitted.
+It also prevents the page to refresh when the form is submitted. The function is asynchronous and uses try/catch statement to deal with the Promise object returned by the getUsers.js function imported.
 
 ```javascript
-const handleSubmit = (event, input) => {
+const handleSubmit = async (event, input) => {
   event.preventDefault();
   setIsLoading(true);
   setIsSubmitted(true);
-  const request = getUsers(input, pageNumber, resultsPerPage);
-  request
-    .then((res) => {
-      setUsers(res.items);
-      setResultsCount(res.total_count);
-      setIsLoading(false);
-    })
-    .catch((error) => {
-      setIsLoading(false);
-      setHasError(true);
-      setErrorType(error);
-    });
+  const response = await getUsers(input, pageNumber, resultsPerPage);
+  try {
+    setUsers(response.items);
+    setResultsCount(response.total_count);
+    setIsLoading(false);
+  } catch (error) {
+    setIsLoading(false);
+    setHasError(true);
+  }
 };
 ```
 

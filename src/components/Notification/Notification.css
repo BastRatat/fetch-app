@@ -1,0 +1,23 @@
+.notification--container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem;
+}
+
+.error {
+  background-color: red;
+  width: 15rem;
+  height: 4rem;
+}
+
+.loading {
+  background-color: orange;
+  width: 15rem;
+  height: 4rem;
+}
+
+.notification--message {
+  color: white;
+}

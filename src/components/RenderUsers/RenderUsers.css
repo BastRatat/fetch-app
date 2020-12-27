@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+
+.users--container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  background-color: #86BC25;
+  padding: 1rem;
+  margin: 2rem;
+  border-radius: 5px;
+  max-width: 200px;
+  min-width: 200px;
+  height: 200px;
+}
+
+a {
+  text-decoration: none;
+}
+
+h3 {
+  text-align: center;
+  color: white;
+  font-family: 'Open Sans', sans-serif;
+  letter-spacing: 1px;
+  font-weight: bold;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.image--container {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.avatar {
+  width: 130px;
+  margin-bottom: 2rem;
+}

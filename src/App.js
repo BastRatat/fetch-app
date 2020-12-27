@@ -1,9 +1,10 @@
 // Imports
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import InputForm from './components/InputForm';
-import RenderUsers from './components/RenderUsers';
-import Notification from './components/Notification';
+import InputForm from './components/InputForm/InputForm';
+import RenderUsers from './components/RenderUsers/RenderUsers';
+import Notification from './components/Notification/Notification';
 import { getUsers } from './utils/getUsers';
+import './App.css';
 
 function App() {
   // States, block variables and refs
@@ -14,7 +15,7 @@ function App() {
   const [errorType, setErrorType] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
-  const resultsPerPage = 10;
+  const resultsPerPage = 16;
   const observer = useRef();
 
   // Callback called on ref to increment page number on scroll
@@ -76,32 +77,38 @@ function App() {
   };
 
   return (
-    <div>
+    <div className="header--container">
       <InputForm
         handleSubmit={handleSubmit}
         handleChange={handleChange}
         userInput={userInput}
       />
-      <div>
+      <div className="render--container">
         {users.length > 0 &&
           users.map((user, index) => {
             if (users.length === index + 1) {
               return (
-                <RenderUsers
-                  user={user}
-                  index={index}
-                  reference={true}
-                  lastUserElement={lastUserElement}
-                />
+                <div>
+                  <RenderUsers
+                    user={user}
+                    key={index}
+                    index={index}
+                    reference={true}
+                    lastUserElement={lastUserElement}
+                  />
+                </div>
               );
             } else {
               return (
-                <RenderUsers
-                  user={user}
-                  index={index}
-                  reference={false}
-                  lastUserElement={lastUserElement}
-                />
+                <div>
+                  <RenderUsers
+                    user={user}
+                    index={index}
+                    key={index}
+                    reference={false}
+                    lastUserElement={lastUserElement}
+                  />
+                </div>
               );
             }
           })}

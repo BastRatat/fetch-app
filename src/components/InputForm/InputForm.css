@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+
+.form--container {
+  margin-top: 5rem;
+}
+
+.form--header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form--title {
+  color: rgb(168, 166, 166);
+  font-family: 'Open Sans', sans-serif;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.input--field {
+  height: 2rem;
+  width: 8rem;
+  text-indent: 10%;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1.2em;
+  letter-spacing: 1px;
+  font-weight: bold;
+  margin-right: 2rem;
+}
+
+.input--field:focus {
+  outline: none;
+}

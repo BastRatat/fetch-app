@@ -88,27 +88,23 @@ function App() {
           users.map((user, index) => {
             if (users.length === index + 1) {
               return (
-                <div>
-                  <RenderUsers
-                    user={user}
-                    key={index}
-                    index={index}
-                    reference={true}
-                    lastUserElement={lastUserElement}
-                  />
-                </div>
+                <RenderUsers
+                  user={user}
+                  key={index}
+                  index={index}
+                  reference={true}
+                  lastUserElement={lastUserElement}
+                />
               );
             } else {
               return (
-                <div>
-                  <RenderUsers
-                    user={user}
-                    index={index}
-                    key={index}
-                    reference={false}
-                    lastUserElement={lastUserElement}
-                  />
-                </div>
+                <RenderUsers
+                  user={user}
+                  index={index}
+                  key={index}
+                  reference={false}
+                  lastUserElement={lastUserElement}
+                />
               );
             }
           })}

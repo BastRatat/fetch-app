@@ -58,21 +58,19 @@ function App() {
   };
 
   // Query against Github API when button is clicked
-  const handleSubmit = (event, input) => {
+  const handleSubmit = async (event, input) => {
     event.preventDefault();
     setIsLoading(true);
     setIsSubmitted(true);
-    const request = getUsers(input, pageNumber, resultsPerPage);
-    request
-      .then((res) => {
-        setUsers(res.items);
-        setResultsCount(res.total_count);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        setHasError(true);
-      });
+    const response = await getUsers(input, pageNumber, resultsPerPage);
+    try {
+      setUsers(response.items);
+      setResultsCount(response.total_count);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      setHasError(true);
+    }
   };
 
   return (

@@ -11,8 +11,8 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [userInput, setUserInput] = useState('');
   const [users, setUsers] = useState([]);
+  const [resultsCount, setResultsCount] = useState(1);
   const [hasError, setHasError] = useState(false);
-  const [errorType, setErrorType] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
   const resultsPerPage = 16;
@@ -48,7 +48,6 @@ function App() {
         .catch((error) => {
           setIsLoading(false);
           setHasError(true);
-          setErrorType(error);
         });
     }
   }, [pageNumber]);
@@ -67,12 +66,12 @@ function App() {
     request
       .then((res) => {
         setUsers(res.items);
+        setResultsCount(res.total_count);
         setIsLoading(false);
       })
       .catch((error) => {
         setIsLoading(false);
         setHasError(true);
-        setErrorType(error);
       });
   };
 
@@ -108,10 +107,10 @@ function App() {
               );
             }
           })}
-        {isSubmitted && users.length === 0 && !errorType === 403 && (
-          <Notification message="User not found" type="error" />
-        )}
       </div>
+      {isSubmitted && resultsCount === 0 && (
+        <Notification message="User not found" type="error" />
+      )}
       {hasError && <Notification message="API rate exceeded" type="error" />}
       {isLoading && <Notification message="Loading..." type="loading" />}
     </div>

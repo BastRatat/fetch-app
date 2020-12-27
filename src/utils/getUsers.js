@@ -10,7 +10,6 @@ export const getUsers = async (userInput, pageNumber, resultsPerPage) => {
   });
 
   const APICallsRemaining = response.headers.get('x-ratelimit-remaining');
-  console.log(APICallsRemaining);
 
   if (response.status === 401) errorJson = await response.status;
   if (APICallsRemaining === 0) errorJson = await response.status;

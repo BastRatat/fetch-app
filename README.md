@@ -5,22 +5,23 @@
 2. [Specs](#specs)
 3. [Installation instructions](#installation)
 4. [Project structure](#structure)
-5. [Utilities](#utils)
-5. [Components](#components)
+5. [Coding conventions](#conventions)
+6. [Utilities](#utils)
+7. [Components](#components)
 
-## Project description<a name="description"></a>
+## 1. Project description<a name="description"></a>
 
 Create an input text in which as the user types in, launch a search against Github users and return a result list.
 
 
-## Specs<a name="specs"></a>
+## 2. Specs<a name="specs"></a>
 
 - Query against Github Api: GET https://api.github.com/search/users?q={USER}.
 - Try to not add any dependency library on a freshly created create react app.
 - Don't forget to check against modern ways to make HTTP requests on frontend side.
 - Bonus: manage edge cases (no results, github api rate limit)
 
-## Installation instructions<a name="installation"></a>
+## 3. Installation instructions<a name="installation"></a>
 
 Versions:
 - Node: 14.15.1
@@ -42,7 +43,7 @@ Run the app in development mode. Open http://localhost:3000 to view it in the br
 npm start
 ```
 
-## Project structure<a name="structure"></a>
+## 4. Project structure<a name="structure"></a>
 - src
   - App.js
   - components
@@ -54,7 +55,17 @@ npm start
     - getUsers.js
 
 
-## Utilities documentation<a name="utils"></a>
+## 5. Coding conventions<a name="conventions"></a>
+
+The Airbnb React/JSX styles have been followed for this project. It was mainly enforced by the ESLint et Prettier extensions in my IDE (Visual Studio Code).
+
+I managed to keep components as small as possible. Moreover, they are function-specific :
+- stateful : App.js (contains logic for fetching data and state management functions)
+- stateless : InputForm.js, RenderUsers.js, Notification.js, Button.js (basically render information from props passed from parent components)
+
+
+
+## 6. Utilities documentation<a name="utils"></a>
 The [getUsers](https://github.com/Tybrax/fetch-app/blob/master/src/utils/getUsers.js) function handle different asynchronous operations :
 1. declare an API endpoint given a set of attributes such a username (*string*), a page number (*integer*) and a number of results per page (*integer*)
 
@@ -96,12 +107,12 @@ return new Promise((resolve, reject) => {
 ``` 
 
 
-## Components documentation<a name="components"></a>
+## 7. Components<a name="components"></a>
 
 ### [App.js](https://github.com/Tybrax/fetch-app/blob/master/src/App.js)
 
 #### function
-App.js contains the logic for fetching users data from an external API.
+App.js is a stateful component. It contains the logic for fetching users data from an external API and makes sur to manage our component lifecycle based on different states updates.
 
 #### import statements
 Import of React and built-in hooks, as well as children components and a function designed to handling API calls.
@@ -231,7 +242,7 @@ const handleSubmit = (event, input) => {
 
 #### Rendering
 App.js conditionnally renders 3 components :
-1. InputForm.js (3 props): 
+1. InputForm.js (3 props):
   - handleSubmit (*function*)
   - handleChange (*function*)
   - user input (*string*)
@@ -243,3 +254,73 @@ App.js conditionnally renders 3 components :
  3. Notifications.js (2 props)
   - message (*string*) to inform the user
   - a type (*string*) for UI purposes
+  
+ 
+### InputForm.js
+ 
+#### function
+Stateless functional component that prompts user for a username. It contains two event listeners which are managed in App.js for better logic splitting:
+- onSubmit : take an user input to fetch data from Github API
+- onChange : update value of the user input on keystrokes
+ 
+```html
+<form onSubmit={(event) => handleSubmit(event, userInput)}>
+  <input
+    type="text"
+    value={userInput}
+    onChange={handleChange}
+    placeholder="username"
+  />
+  <Button userInput={userInput} />
+</form>
+```
+ 
+#### Rendering
+InputForm.js renders one component :
+1. Button.js (1 prop) :
+  - userInput (*string*) for conditionnal rendering
+
+
+### RenderUsers.js
+ 
+#### function
+Stateless functional component that conditionnaly display users data fetched in App.js:
+
+1. The following snippet illustrates the rendered code if the element to be rendered is the last element of the users array. In that case, we have to add a ref and a callback function to manage more GET requests with an incremented page number.
+
+```html
+<div key={index} ref={lastUserElement}>
+  <a href={user.html_url}>
+    <p>{user.login}</p>
+    <img src={user.avatar_url} alt="avatar" width="150" />
+  </a>
+  <a href={user.repos_url}>
+    <button>Repos</button>
+  </a>
+</div>
+```
+
+2. If the element rendered is not the last of the users array, the following JSX will display user's information
+ 
+```html
+<div key={index} ref={lastUserElement}>
+  <a href={user.html_url}>
+    <p>{user.login}</p>
+    <img src={user.avatar_url} alt="avatar" width="150" />
+  </a>
+  <a href={user.repos_url}>
+    <button>Repos</button>
+  </a>
+</div>
+```
+
+### Button.js
+ 
+#### function
+Stateless functional component that conditionnaly display a button or a disabled button if the user input in the input field is empty to prevent queries with empty parameters.
+
+```html
+  <button type="submit" disabled={userInput === '' ? true : false}>
+    Search
+  </button>
+```

@@ -1,19 +1,26 @@
 # Github users search
 
+# Table of contents
+1. [Project description](#description)
+2. [Specs](#specs)
+3. [Installation instructions](#installation)
+4. [Project structure](#structure)
+5. [Utilities](#utils)
+5. [Components](#components)
 
-## Project description
+## Project description<a name="description"></a>
 
 Create an input text in which as the user types in, launch a search against Github users and return a result list.
 
 
-## Specs 
+## Specs<a name="specs"></a>
 
 - Query against Github Api: GET https://api.github.com/search/users?q={USER}.
 - Try to not add any dependency library on a freshly created create react app.
 - Don't forget to check against modern ways to make HTTP requests on frontend side.
 - Bonus: manage edge cases (no results, github api rate limit)
 
-## Installation instructions
+## Installation instructions<a name="installation"></a>
 
 Versions:
 - Node: 14.15.1
@@ -35,7 +42,7 @@ Run the app in development mode. Open http://localhost:3000 to view it in the br
 npm start
 ```
 
-## Project structure
+## Project structure<a name="structure"></a>
 - src
   - App.js
   - components
@@ -47,7 +54,7 @@ npm start
     - getUsers.js
 
 
-## Utilities documentation
+## Utilities documentation<a name="utils"></a>
 The [getUsers](https://github.com/Tybrax/fetch-app/blob/master/src/utils/getUsers.js) function handle different asynchronous operations :
 1. declare an API endpoint given a set of attributes such a username (*string*), a page number (*integer*) and a number of results per page (*integer*)
 
@@ -89,7 +96,7 @@ return new Promise((resolve, reject) => {
 ``` 
 
 
-## Components documentation
+## Components documentation<a name="components"></a>
 
 ### [App.js](https://github.com/Tybrax/fetch-app/blob/master/src/App.js)
 

@@ -39,3 +39,16 @@ form {
 .input--field:focus {
   outline: none;
 }
+
+.logo {
+  animation: fadeIn 3s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0%;
+  }
+  to {
+    opacity: 100%;
+  }
+}

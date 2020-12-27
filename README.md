@@ -14,13 +14,13 @@
 
 Create an input text in which as the user types in, launch a search against Github users and return a result list.
 
-###Application running on a laptop
+### Application running on a laptop
 
-![laptop](https://i.ibb.co/1bLqVBJ/app-screen.png)
+![laptop](https://i.ibb.co/1bLqVBJ/app-screen.png "laptop version")
+### Application running on a mobile device
 
-###Application running on a mobile device
+![mobile](https://i.ibb.co/4PxY3tY/app-phone.png "mobile version")
 
-![mobile](https://i.ibb.co/4PxY3tY/app-phone.png)
 
 ## 2. Specs<a name="specs"></a>
 

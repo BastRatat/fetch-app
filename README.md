@@ -8,11 +8,19 @@
 5. [Coding conventions](#conventions)
 6. [Utilities](#utils)
 7. [Components](#components)
+8. [CSS](#css)
 
 ## 1. Project description<a name="description"></a>
 
 Create an input text in which as the user types in, launch a search against Github users and return a result list.
 
+###Application running on a laptop
+
+![laptop](https://i.ibb.co/1bLqVBJ/app-screen.png)
+
+###Application running on a mobile device
+
+![mobile](https://i.ibb.co/4PxY3tY/app-phone.png)
 
 ## 2. Specs<a name="specs"></a>
 
@@ -33,9 +41,14 @@ Download code from Github:
 git clone https://github.com/Tybrax/fetch-app.git
 ```
 
-Navigate to project directory
+Navigate to project directory.
 ```shell
 cd fetch-app
+```
+
+Install node modules.
+```shell
+npm install
 ```
 
 Run the app in development mode. Open http://localhost:3000 to view it in the browser.
@@ -57,9 +70,9 @@ npm start
 
 ## 5. Coding conventions<a name="conventions"></a>
 
-The Airbnb React/JSX styles have been followed for this project. It was mainly enforced by the ESLint et Prettier extensions in my IDE (Visual Studio Code).
+The Airbnb React/JSX styles have been followed for this project. It was mainly enforced by the ESLint et Prettier extensions directly from Visual Studio Code.
 
-I managed to keep components as small as possible. Moreover, they are function-specific :
+Small and function-specific components:
 - stateful : App.js (contains logic for fetching data and state management functions)
 - stateless : InputForm.js, RenderUsers.js, Notification.js, Button.js (basically render information from props passed from parent components)
 
@@ -112,41 +125,42 @@ return new Promise((resolve, reject) => {
 ### [App.js](https://github.com/Tybrax/fetch-app/blob/master/src/App.js)
 
 #### function
-App.js is a stateful component. It contains the logic for fetching users data from an external API and makes sur to manage our component lifecycle based on different states updates.
+App.js is a stateful component that contains the logic for fetching users data from an external API and makes sur to manage our component lifecycle based on different states updates. It uses React built-in hooks such as useState, useEffect, useRef and useCallback
 
 #### import statements
 Import of React and built-in hooks, as well as children components and a function designed to handling API calls.
 
 ```javascript
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import InputForm from './components/InputForm';
-import RenderUsers from './components/RenderUsers';
-import Notification from './components/Notification';
+import InputForm from './components/InputForm/InputForm';
+import RenderUsers from './components/RenderUsers/RenderUsers';
+import Notification from './components/Notification/Notification';
 import { getUsers } from './utils/getUsers';
+import './App.css';
 ``` 
 
 #### States
-States are handled with the useState built-in hooks. We initialize our states at the top of the component.
+States are handled with the useState built-in hooks. states are initialized at the top of the component.
 - isLoading (*boolean*): allow us to display a loading message when HTTP request status is pending
 - userInput (*string*): is used to store the string prompted by the user in the input field
 - users (*array*): stores an array of object containing the users information from the API
 - hasError (*boolean*): allow serrors handling in .catch statements
-- errorType  (*ineteger*): gives more information on errors for accurately display a message to users
+- resultsCounts helps to check if the total_count of entries from the array is 0 to display a notification informing the client that no user was found
 - isSubmitted (*boolean*): is triggered when user submits his input
-- pageNumber (*integer*): is incremented by one whenever user reaches the last element of the page. Used for implementing infinite scrolling.
+- pageNumber (*integer*): is incremented by one whenever user reaches the last element of the page. Used for implementing infinite scrolling
 
 ```javascript
 const [isLoading, setIsLoading] = useState(false);
 const [userInput, setUserInput] = useState('');
 const [users, setUsers] = useState([]);
 const [hasError, setHasError] = useState(false);
-const [errorType, setErrorType] = useState({});
+const [resultsCount, setResultsCount] = useState(1);
 const [isSubmitted, setIsSubmitted] = useState(false);
 const [pageNumber, setPageNumber] = useState(1);
 ``` 
 
 #### Reference
-A ref is needed for using the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) for implementing infinite scrolling so that our user does not have to flip through pages when array of result contains thousands of entries.
+A ref is needed for using the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) to implement infinite scrolling so that our user does not have to flip through pages when array of result contains thousands of entries.
 
 ```javascript
 const observer = useRef();
@@ -230,6 +244,7 @@ const handleSubmit = (event, input) => {
   request
     .then((res) => {
       setUsers(res.items);
+      setResultsCount(res.total_count);
       setIsLoading(false);
     })
     .catch((error) => {
@@ -247,12 +262,12 @@ App.js conditionnally renders 3 components :
   - handleChange (*function*)
   - user input (*string*)
 2. RenderUsers.js (4 props):
-  - user (*object*, temporary variable from an iteration in the array of users)
+  - user (*object*), temporary variable from an iteration in the array of users
   - index (*integer*)
-  - reference (*boolean*, to track last element of the array of users)
+  - reference (*boolean*) to track last element of the array of users
   - lastUserElement (*function*, callback) to be called on the last array element
  3. Notifications.js (2 props)
-  - message (*string*) to inform the user
+  - message (*string*) to inform the user that an operation occured
   - a type (*string*) for UI purposes
   
  
@@ -320,7 +335,23 @@ Stateless functional component that conditionnaly display users data fetched in 
 Stateless functional component that conditionnaly display a button or a disabled button if the user input in the input field is empty to prevent queries with empty parameters.
 
 ```html
-  <button type="submit" disabled={userInput === '' ? true : false}>
-    Search
-  </button>
+<button type="submit" disabled={userInput === '' ? true : false}>
+  Search
+</button>
 ```
+
+### Notification.js
+ 
+#### function
+Stateless functional component that conditionnaly renders notifications to inform the user whether the page is loading or an error occured given a message and a type props.
+
+```html
+<div className="notification--container">
+  <div className={type === 'error' ? 'error' : 'loading'}>
+    <h3 className="notification--message">{message}</h3>
+  </div>
+</div>
+```
+
+## 8. CSS<a name="css"></a>
+No librairies installed on this project. Therefore, the app was designed with CSS3. Each component has a respective stylesheet. The application is fully responsive and adapts to different devices.
